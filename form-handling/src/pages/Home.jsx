@@ -10,6 +10,7 @@ import { RiMenu2Line } from "react-icons/ri";
 import { IoIosWarning } from "react-icons/io";
 import { IoSave } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 
 const Home = () => {
   // states
@@ -45,6 +46,15 @@ const Home = () => {
 
   // expander 1
   const [expander_1, setExpander_1] = useState(null);
+
+  //   have sub 2
+  const [have_sub_2, set_have_sub_2] = useState(false);
+
+  // title 2
+  const [title_2, set_title_2] = useState("");
+
+//   add sub 1 toggler
+const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
 
   // handlers
   // add case category toggler
@@ -238,18 +248,69 @@ const Home = () => {
   };
 
   //   expander_1_toggler_handler
-  const expander_1_toggler_handler = id_1 => {
-    if(expander_1 === id_1){
-        setExpander_1(null)
-    }else {
-        setExpander_1(id_1)
+  const expander_1_toggler_handler = (id_1) => {
+    if (expander_1 === id_1) {
+      setExpander_1(null);
+    } else {
+      setExpander_1(id_1);
     }
 
-    setMoreOption_1(null)
+    setMoreOption_1(null);
+  };
+
+  //   title_2_input_change_handler
+  const title_2_input_change_handler = (value) => {
+    set_title_2(value);
+  };
+
+  // add_new_sub_2_submit_handler
+  const add_new_sub_2_submit_handler = (id_1) => {
+    if (title_2?.trim()) {
+        let index_i = cases?.findIndex(caseItem => caseItem?.id_1 === id_1);
+        console.log()
+        if (cases[index_i]?.sub_1) {
+            if (have_sub_2) {
+              cases[index_i]["sub_1"] = [...cases[index_i]["sub_1"],
+                { id_2: `${Date.now()}`, title_2, sub_2: [] },
+              ];
+              setCases(cases);
+            } else {
+              cases[index_i]["sub_1"] = [...cases[index_i]["sub_1"],{ id_2: `${Date.now()}`, title_2, services: [] }];
+              setCases(cases);
+            }
+        }else {
+            if(have_sub_2){
+             cases[index_i]['sub_1'] = [{id_2: `${Date.now()}`,title_2,sub_2: []}]
+             setCases(cases)
+            }else {
+             cases[index_i]["sub_1"] = [
+               { id_2: `${Date.now()}`, title_2, services: [] },
+             ];
+             setCases(cases);
+            }
+        }
+      console.log("id_1: ", id_1);
+      console.log("have sub list: ", have_sub_2);
+      console.log("title_2: ", title_2);
+    }
+
+    set_title_2("")
+    set_have_sub_2(false)
+  };
+
+//   add_sub_1_toggler_handler
+const add_sub_1_toggler_handler = id_1 => {
+  if (add_sub_1_toggler === id_1) {
+    set_add_sub_1_toggler(null);
+    set_have_sub_2(false);
+    set_title_2("");
+  } else {
+    set_add_sub_1_toggler(id_1);
   }
+}
 
   return (
-    <div className="flex-grow px-5">
+    <div className="flex-grow px-5 text-[.85rem]">
       {/* add new */}
       <div>
         <header className="flex items-center justify-between p-2 border border-gray-200 rounded-md bg-gray-100">
@@ -455,7 +516,11 @@ const Home = () => {
                           }}
                         >
                           <RiMenu2Line className="text-gray-600" />
-                          <span>{expander_1 === caseItem_1?.id_1 ? "show less" : "expand"}</span>
+                          <span>
+                            {expander_1 === caseItem_1?.id_1
+                              ? "show less"
+                              : "expand"}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -523,6 +588,113 @@ const Home = () => {
                             <p>{caseItem_1?.description}</p>
                           </div>
                         )}
+                      </div>
+
+                      {/* first sub */}
+                      <div>
+                        {/* header */}
+                        <header className="flex items-center justify-between pl-2 mt-2">
+                          {/* left */}
+                          <div className="flex items-center gap-x-3">
+                            {/* title */}
+                            <div className="text-[.85rem] font-medium">
+                              <p>{caseItem_1?.title_1} sub cases</p>
+                            </div>
+                            {/* number */}
+                            <div className="text-gray-600 text-xs">
+                              <span>total: 3</span>
+                            </div>
+                          </div>
+                          {/* right */}
+                          <div>
+                            <button
+                              className={`flex items-center gap-x-1 px-3 py-1 rounded-md text-white transition-colors ease-in-out duration-150  ${
+                                add_sub_1_toggler === caseItem_1?.id_1
+                                  ? "bg-red-600 hover:bg-red-500"
+                                  : "bg-blue-600 hover:bg-blue-500"
+                              }`}
+                              onClick={() => {
+                                add_sub_1_toggler_handler(caseItem_1?.id_1);
+                              }}
+                            >
+                              <MdOutlineAddCircle
+                                className={`transition-transform ease-in-out duration-150 ${
+                                  add_sub_1_toggler
+                                    ? "rotate-45"
+                                    : "rotate-0"
+                                }`}
+                              />
+                              <span>add sub case</span>
+                            </button>
+                          </div>
+                        </header>
+
+                        {/* input */}
+                        <div
+                          className={`my-3 transition-all ease-in-out duration-150 overflow-hidden ${add_sub_1_toggler ? 'h-[130px]' : 'h-0'}`}
+                          
+                        >
+                          <div className="ml-2 p-2 border border-gray-200 bg-gray-100 rounded-md">
+                            {/* input */}
+                            <div className="mb-3 border border-gray-200 rounded-md p-1 bg-white">
+                              <input
+                                className="w-full focus:outline-none focus:ring-0 bg-transparent text-sm"
+                                type="text"
+                                placeholder="sub case"
+                                value={title_2}
+                                onChange={(e) => {
+                                  title_2_input_change_handler(e.target.value);
+                                }}
+                              />
+                            </div>
+                            {/* have sub list */}
+                            <div className="flex items-center gap-1">
+                              <div>
+                                <div
+                                  className={`w-[16px] cursor-pointer aspect-square border transition-colors ease-in-out duration-150  flex items-center justify-center text-xs  ${
+                                    have_sub_2
+                                      ? "border-blue-500 text-white bg-blue-500 "
+                                      : "border-gray-400 text-gray-400 bg-white"
+                                  }`}
+                                  onClick={() => {
+                                    set_have_sub_2(!have_sub_2);
+                                  }}
+                                >
+                                  <FaCheck />
+                                </div>
+                              </div>
+                              <div
+                                className="text-gray-500 transition-colors ease-in-out duration-150 hover:text-gray-700 cursor-pointer"
+                                onClick={() => {
+                                  set_have_sub_2(!have_sub_2);
+                                }}
+                              >
+                                <p>have sub list?</p>
+                              </div>
+                            </div>
+                            {/* buttons */}
+                            <div className="flex items-center gap-x-5 mt-5">
+                              <button
+                                className="px-5 py-1 rounded-md bg-gray-700 text-white transition-colors ease-in-out duration-150 hover:bg-gray-600"
+                                onClick={() => {
+                                  add_sub_1_toggler_handler(caseItem_1?.id_1);
+                                }}
+                              >
+                                cancel
+                              </button>
+                              <button
+                                className="px-5 py-1 rounded-md bg-blue-600 text-white transition-colors ease-in-out duration-150 hover:bg-blue-500"
+                                onClick={() => {
+                                  add_new_sub_2_submit_handler(
+                                    caseItem_1?.id_1
+                                  );
+                                }}
+                              >
+                                add sub case
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
