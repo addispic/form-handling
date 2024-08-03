@@ -53,8 +53,8 @@ const Home = () => {
   // title 2
   const [title_2, set_title_2] = useState("");
 
-//   add sub 1 toggler
-const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
+  //   add sub 1 toggler
+  const [add_sub_1_toggler, set_add_sub_1_toggler] = useState(null);
 
   // handlers
   // add case category toggler
@@ -129,9 +129,7 @@ const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
 
   // delete category handler
   const deleteCategoryHandler = (id_1) => {
-    console.log(id_1);
     let filteredCases = cases?.filter((caseItem) => caseItem?.id_1 !== id_1);
-    console.log(filteredCases);
     setCases(filteredCases);
     setDeleteCategoryToggler((prev) => {
       return {
@@ -195,7 +193,6 @@ const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
 
   // edit category description handler
   const editCategoryDescriptionTogglerHandler = (id_1, description) => {
-    console.log({ id_1, description });
     if (editCategoryDescriptionToggler?.id_1 === id_1) {
       setEditCategoryDescriptionToggler((prev) => {
         return {
@@ -227,7 +224,6 @@ const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
 
   //   editCaseCategoryDescriptionSubmitHandler
   const editCaseCategoryDescriptionSubmitHandler = () => {
-    console.log(editCategoryDescriptionToggler);
     if (editCategoryDescriptionToggler?.description?.trim()) {
       let index_1 = cases?.findIndex(
         (caseItem) => caseItem?.id_1 === editCategoryDescriptionToggler?.id_1
@@ -256,6 +252,8 @@ const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
     }
 
     setMoreOption_1(null);
+    set_have_sub_2(false);
+    set_title_2("");
   };
 
   //   title_2_input_change_handler
@@ -263,51 +261,55 @@ const [add_sub_1_toggler,set_add_sub_1_toggler] = useState(null)
     set_title_2(value);
   };
 
-  // add_new_sub_2_submit_handler
-  const add_new_sub_2_submit_handler = (id_1) => {
+  // add_new_sub_1_submit_handler
+  const add_new_sub_1_submit_handler = (id_1) => {
     if (title_2?.trim()) {
-        let index_i = cases?.findIndex(caseItem => caseItem?.id_1 === id_1);
-        console.log()
-        if (cases[index_i]?.sub_1) {
-            if (have_sub_2) {
-              cases[index_i]["sub_1"] = [...cases[index_i]["sub_1"],
-                { id_2: `${Date.now()}`, title_2, sub_2: [] },
-              ];
-              setCases(cases);
-            } else {
-              cases[index_i]["sub_1"] = [...cases[index_i]["sub_1"],{ id_2: `${Date.now()}`, title_2, services: [] }];
-              setCases(cases);
-            }
-        }else {
-            if(have_sub_2){
-             cases[index_i]['sub_1'] = [{id_2: `${Date.now()}`,title_2,sub_2: []}]
-             setCases(cases)
-            }else {
-             cases[index_i]["sub_1"] = [
-               { id_2: `${Date.now()}`, title_2, services: [] },
-             ];
-             setCases(cases);
-            }
+      let index_i = cases?.findIndex((caseItem) => caseItem?.id_1 === id_1);
+      if (cases[index_i]?.sub_1) {
+        if (have_sub_2) {
+          cases[index_i]["sub_1"] = [
+            ...cases[index_i]["sub_1"],
+            { id_2: `${Date.now()}`, title_2, sub_2: [] },
+          ];
+          setCases(cases);
+        } else {
+          cases[index_i]["sub_1"] = [
+            ...cases[index_i]["sub_1"],
+            { id_2: `${Date.now()}`, title_2, services: [] },
+          ];
+          setCases(cases);
         }
-      console.log("id_1: ", id_1);
-      console.log("have sub list: ", have_sub_2);
-      console.log("title_2: ", title_2);
+      } else {
+        if (have_sub_2) {
+          cases[index_i]["sub_1"] = [
+            { id_2: `${Date.now()}`, title_2, sub_2: [] },
+          ];
+          setCases(cases);
+        } else {
+          cases[index_i]["sub_1"] = [
+            { id_2: `${Date.now()}`, title_2, services: [] },
+          ];
+          setCases(cases);
+        }
+      }
+
+      set_add_sub_1_toggler(null);
     }
 
-    set_title_2("")
-    set_have_sub_2(false)
+    set_title_2("");
+    set_have_sub_2(false);
   };
 
-//   add_sub_1_toggler_handler
-const add_sub_1_toggler_handler = id_1 => {
-  if (add_sub_1_toggler === id_1) {
-    set_add_sub_1_toggler(null);
-    set_have_sub_2(false);
-    set_title_2("");
-  } else {
-    set_add_sub_1_toggler(id_1);
-  }
-}
+  //   add_sub_1_toggler_handler
+  const add_sub_1_toggler_handler = (id_1) => {
+    if (add_sub_1_toggler === id_1) {
+      set_add_sub_1_toggler(null);
+      set_have_sub_2(false);
+      set_title_2("");
+    } else {
+      set_add_sub_1_toggler(id_1);
+    }
+  };
 
   return (
     <div className="flex-grow px-5 text-[.85rem]">
@@ -619,9 +621,7 @@ const add_sub_1_toggler_handler = id_1 => {
                             >
                               <MdOutlineAddCircle
                                 className={`transition-transform ease-in-out duration-150 ${
-                                  add_sub_1_toggler
-                                    ? "rotate-45"
-                                    : "rotate-0"
+                                  add_sub_1_toggler ? "rotate-45" : "rotate-0"
                                 }`}
                               />
                               <span>add sub case</span>
@@ -631,8 +631,9 @@ const add_sub_1_toggler_handler = id_1 => {
 
                         {/* input */}
                         <div
-                          className={`my-3 transition-all ease-in-out duration-150 overflow-hidden ${add_sub_1_toggler ? 'h-[130px]' : 'h-0'}`}
-                          
+                          className={`my-3 transition-all ease-in-out duration-150 overflow-hidden ${
+                            add_sub_1_toggler ? "h-[130px]" : "h-0"
+                          }`}
                         >
                           <div className="ml-2 p-2 border border-gray-200 bg-gray-100 rounded-md">
                             {/* input */}
@@ -685,7 +686,7 @@ const add_sub_1_toggler_handler = id_1 => {
                               <button
                                 className="px-5 py-1 rounded-md bg-blue-600 text-white transition-colors ease-in-out duration-150 hover:bg-blue-500"
                                 onClick={() => {
-                                  add_new_sub_2_submit_handler(
+                                  add_new_sub_1_submit_handler(
                                     caseItem_1?.id_1
                                   );
                                 }}
@@ -695,6 +696,13 @@ const add_sub_1_toggler_handler = id_1 => {
                             </div>
                           </div>
                         </div>
+
+                        {/* sub 1 list */}
+                        {caseItem_1?.sub_1?.length > 0 ? (
+                          <div>sub 1 list</div>
+                        ) : (
+                          <div>Hint Text </div>
+                        )}
                       </div>
                     </div>
                   </div>
