@@ -604,7 +604,7 @@ const Home = () => {
                             </div>
                             {/* number */}
                             <div className="text-gray-600 text-xs">
-                              <span>total: 3</span>
+                              <span>{caseItem_1?.sub_1?.length}</span>
                             </div>
                           </div>
                           {/* right */}
@@ -699,9 +699,49 @@ const Home = () => {
 
                         {/* sub 1 list */}
                         {caseItem_1?.sub_1?.length > 0 ? (
-                          <div>sub 1 list</div>
+                          <div>
+                            <div>
+                              {
+                                caseItem_1?.sub_1?.map((caseItem_2)=>{
+                                  console.log(caseItem_2)
+                                  return (
+                                    <div key={caseItem_2?.id_2}>
+                                      <div>
+                                        {/* header */}
+                                        <header className="flex items-center gap-x-3">
+                                          {/* left */}
+                                          <div className="flex-grow">{caseItem_2?.title_2}</div>
+                                          {/* right */}
+                                          <div>right</div>
+                                        </header>
+                                      </div>
+                                    </div>
+                                  )
+                                })
+                              }
+                            </div>
+                          </div>
                         ) : (
-                          <div>Hint Text </div>
+                          <div>
+                            <div className="ml-2">
+                              <div>
+                                <p>
+                                  add sub list hint Lorem ipsum dolor sit, amet
+                                  consectetur adipisicing elit. Impedit dolores
+                                  debitis laborum laudantium, et provident
+                                  reiciendis modi maiores!
+                                </p>
+                              </div>
+                              <button
+                                className="text-blue-600 transition-colors ease-in-out duration-150 hover:text-blue-700 hover:underline"
+                                onClick={() => {
+                                  add_sub_1_toggler_handler(caseItem_1?.id_1);
+                                }}
+                              >
+                                add new sub list
+                              </button>
+                            </div>
+                          </div>
                         )}
                       </div>
                     </div>
