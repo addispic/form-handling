@@ -859,6 +859,237 @@ const Home = () => {
     });
   };
 
+  ////////////////////////////////////////////////
+  //////////////// sub 2 service /////////////////
+  ////////////////////////////////////////////////
+
+  // state
+  // add new service 2
+  const [add_new_service_2_toggler, set_add_new_service_2_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    id_3: null,
+    service_2: "",
+  });
+
+  // add_new_service_2_toggler_handler
+  const add_new_service_2_toggler_handler = (id_1, id_2, id_3) => {
+    if (
+      add_new_service_2_toggler?.id_1 === id_1 &&
+      add_new_service_2_toggler?.id_2 === id_2 &&
+      add_new_service_2_toggler?.id_3 === id_3
+    ) {
+      set_add_new_service_2_toggler((prev) => {
+        return {
+          ...prev,
+          id_1: null,
+          id_2: null,
+          id_3: null,
+          service_2: "",
+        };
+      });
+    } else {
+      set_add_new_service_2_toggler((prev) => {
+        return {
+          ...prev,
+          id_1,
+          id_2,
+          id_3,
+        };
+      });
+    }
+  };
+
+  // add_new_service_2_toggler_input_change_handler
+  const add_new_service_2_toggler_input_change_handler = (service_2) => {
+    set_add_new_service_2_toggler((prev) => {
+      return {
+        ...prev,
+        service_2,
+      };
+    });
+  };
+
+  // add_new_service_2_toggler_submit_handler
+  const add_new_service_2_toggler_submit_handler = () => {
+    const { id_1, id_2, id_3, service_2 } = add_new_service_2_toggler;
+    if (service_2?.trim()) {
+      let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+      let index_2 = cases[index_1]["sub_1"]?.findIndex(
+        (caseItem_2) => caseItem_2?.id_2 === id_2
+      );
+      let index_3 = cases[index_1]["sub_1"][index_2]["sub_2"]?.findIndex(
+        (caseItem_3) => caseItem_3?.id_3 === id_3
+      );
+
+      // console.log(cases[index_1]['sub_1'][index_2]['sub_2'][index_3]['services'])
+
+      cases[index_1]["sub_1"][index_2]["sub_2"][index_3]["services"] = [
+        ...cases[index_1]["sub_1"][index_2]["sub_2"][index_3]["services"],
+        { service_2_id: `${Date.now()}`, service_2 },
+      ];
+      setCases(cases);
+      set_add_new_service_2_toggler((prev) => {
+        return {
+          ...prev,
+          id_1: null,
+          id_2: null,
+          id_3: null,
+          service_2: "",
+        };
+      });
+    }
+  };
+
+  // delete service 2
+  const [delete_service_2_toggler, set_delete_service_2_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    id_3: null,
+    service_2_id: null,
+    title_1: "",
+    title_2: "",
+    title_3: "",
+    service_2: "",
+  });
+
+  // delete_service_2_toggler_handler
+  const delete_service_2_toggler_handler = (
+    id_1,
+    id_2,
+    id_3,
+    service_2_id,
+    title_1,
+    title_2,
+    title_3,
+    service_2
+  ) => {
+    set_delete_service_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1,
+        id_2,
+        id_3,
+        service_2_id,
+        title_1,
+        title_2,
+        title_3,
+        service_2,
+      };
+    });
+  };
+
+  // cancel delete conformation
+  const cancel_delete_service_2_conformation = () => {
+    set_delete_service_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1: null,
+        id_2: null,
+        id_3: null,
+        service_2_id: null,
+        title_1: "",
+        title_2: "",
+        title_3: "",
+        service_2: "",
+      };
+    });
+  };
+
+  // delete conformation
+  const delete_service_2_conformation_handler = () => {
+    const { id_1, id_2, id_3, service_2_id } = delete_service_2_toggler;
+
+    let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+    let index_2 = cases[index_1]["sub_1"]?.findIndex(
+      (caseItem_2) => caseItem_2?.id_2 === id_2
+    );
+    let index_3 = cases[index_1]["sub_1"][index_2]["sub_2"]?.findIndex(
+      (caseItem_3) => caseItem_3?.id_3 === id_3
+    );
+    cases[index_1]["sub_1"][index_2]["sub_2"][index_3]["services"] = cases[
+      index_1
+    ]["sub_1"][index_2]["sub_2"][index_3]["services"]?.filter(
+      (serviceItem_2) => serviceItem_2?.service_2_id !== service_2_id
+    );
+    setCases(cases);
+    cancel_delete_service_2_conformation();
+  };
+
+  // edit service 2
+  const [edit_service_2_toggler, set_edit_service_2_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    id_3: null,
+    service_2_id: null,
+    service_2_input: "",
+  });
+
+  // edit_service_2_toggler_handler
+  const edit_service_2_toggler_handler = (
+    id_1,
+    id_2,
+    id_3,
+    service_2_id,
+    service_2_input
+  ) => {
+    set_edit_service_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1,
+        id_2,
+        id_3,
+        service_2_id,
+        service_2_input,
+      };
+    });
+  };
+
+  // edit service 2 input change handler
+  const edit_service_2_input_change_handler = (service_1_input) => {
+    set_edit_service_2_toggler((prev) => {
+      return {
+        ...prev,
+        service_1_input,
+      };
+    });
+  };
+
+  // save_edit_service_2_changes_handler
+  const save_edit_service_2_changes_handler = () => {
+    const { id_1, id_2, id_3, service_2_id, service_2_input } =
+      edit_service_2_toggler;
+    if (service_2_input?.trim()) {
+      let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+      let index_2 = cases[index_1]["sub_1"]?.findIndex(
+        (caseItem_2) => caseItem_2?.id_2 === id_2
+      );
+      let index_3 = cases[index_1]["sub_1"][index_2]["sub_2"]?.findIndex(
+        (caseItem_3) => caseItem_3?.id_3 === id_3
+      );
+      let service_2_index = cases[index_1]["sub_1"][index_2]["sub_2"][index_3][
+        "services"
+      ]?.findIndex(
+        (serviceItem_2) => serviceItem_2?.service_2_id === service_2_id
+      );
+      cases[index_1]["sub_1"][index_2]["sub_2"][index_3]["services"][
+        service_2_index
+      ]["service_2"] = service_2_input;
+      setCases(cases);
+    }
+
+    set_edit_service_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1: null,
+        id_2: null,
+        id_3: null,
+        service_2_id: null,
+        service_2_input: "",
+      };
+    });
+  };
+
   return (
     <div className="flex-grow px-5 text-[.85rem]">
       {/* add new */}
@@ -1485,6 +1716,10 @@ const Home = () => {
                                                   </div>
                                                 </div>
                                               </div>
+                                              {/* ********************************************************** */}
+                                              {/* ********************************************************** */}
+                                              {/* ********************************************************** */}
+                                              {/* ********************************************************** */}
                                               {caseItem_2?.services?.length >
                                               0 ? (
                                                 <div>
@@ -1876,6 +2111,323 @@ const Home = () => {
                                                                 </button>
                                                               </div>
                                                             </header>
+
+                                                            {/*
+                                                             **********************************************
+                                                             *************** phase two ********************
+                                                             **********************************************
+                                                             ************** sub 2 service  ****************
+                                                             **********************************************
+                                                             */}
+
+                                                            {/* content */}
+                                                            <div>
+                                                              <div className="mt-2 border-t border-gray-200 pt-1">
+                                                                {/* header */}
+                                                                <header className="flex items-center justify-between pl-2 mt-2">
+                                                                  {/* left */}
+                                                                  <div className="flex items-center gap-x-3">
+                                                                    {/* title */}
+                                                                    <div className="text-[.85rem] font-medium">
+                                                                      <p>
+                                                                        services
+                                                                        related
+                                                                        to{" "}
+                                                                        {
+                                                                          caseItem_3?.title_3
+                                                                        }
+                                                                      </p>
+                                                                    </div>
+                                                                    {/* number */}
+                                                                    <div className="text-gray-600 text-xs">
+                                                                      <span>
+                                                                        {
+                                                                          caseItem_3
+                                                                            ?.services
+                                                                            ?.length
+                                                                        }
+                                                                      </span>
+                                                                    </div>
+                                                                  </div>
+                                                                  {/* right */}
+                                                                  <div>
+                                                                    <button
+                                                                      className={`flex items-center gap-x-1 px-3 py-1 rounded-md text-white transition-colors ease-in-out duration-150  ${
+                                                                        add_new_service_2_toggler?.id_1 ===
+                                                                          caseItem_1?.id_1 &&
+                                                                        add_new_service_2_toggler?.id_2 ===
+                                                                          caseItem_2?.id_2 &&
+                                                                        add_new_service_2_toggler?.id_3 ===
+                                                                          caseItem_3?.id_3
+                                                                          ? "bg-red-600 hover:bg-red-500"
+                                                                          : "bg-blue-600 hover:bg-blue-500"
+                                                                      }`}
+                                                                      onClick={() => {
+                                                                        add_new_service_2_toggler_handler(
+                                                                          caseItem_1?.id_1,
+                                                                          caseItem_2?.id_2,
+                                                                          caseItem_3?.id_3
+                                                                        );
+                                                                      }}
+                                                                    >
+                                                                      <MdOutlineAddCircle
+                                                                        className={`transition-transform ease-in-out duration-150 ${
+                                                                          add_new_service_2_toggler?.id_1 ===
+                                                                            caseItem_1?.id_1 &&
+                                                                          add_new_service_2_toggler?.id_2 ===
+                                                                            caseItem_2?.id_2 &&
+                                                                          add_new_service_2_toggler?.id_3 ===
+                                                                            caseItem_3?.id_3
+                                                                            ? "rotate-45"
+                                                                            : "rotate-0"
+                                                                        }`}
+                                                                      />
+                                                                      <span>
+                                                                        add new
+                                                                        service
+                                                                      </span>
+                                                                    </button>
+                                                                  </div>
+                                                                </header>
+                                                                {/* input */}
+                                                                <div
+                                                                  className={`my-3 transition-all ease-in-out duration-150 overflow-hidden ${
+                                                                    add_new_service_2_toggler?.id_1 ===
+                                                                      caseItem_1?.id_1 &&
+                                                                    add_new_service_2_toggler?.id_2 ===
+                                                                      caseItem_2?.id_2 &&
+                                                                    add_new_service_2_toggler?.id_3 ===
+                                                                      caseItem_3?.id_3
+                                                                      ? "h-[130px]"
+                                                                      : "h-0"
+                                                                  }`}
+                                                                >
+                                                                  <div className="ml-2 p-2 border border-gray-200 bg-gray-100 rounded-md">
+                                                                    {/* input */}
+                                                                    <div className="mb-3 border border-gray-200 rounded-md p-1 bg-white">
+                                                                      <input
+                                                                        className="w-full focus:outline-none focus:ring-0 bg-transparent text-sm"
+                                                                        type="text"
+                                                                        placeholder="service"
+                                                                        value={
+                                                                          add_new_service_2_toggler?.service_2
+                                                                        }
+                                                                        onChange={(
+                                                                          e
+                                                                        ) => {
+                                                                          add_new_service_2_toggler_input_change_handler(
+                                                                            e
+                                                                              .target
+                                                                              .value
+                                                                          );
+                                                                        }}
+                                                                      />
+                                                                    </div>
+                                                                    {/* buttons */}
+                                                                    <div className="flex items-center gap-x-5 mt-5">
+                                                                      <button
+                                                                        className="px-5 py-1 rounded-md bg-gray-700 text-white transition-colors ease-in-out duration-150 hover:bg-gray-600"
+                                                                        onClick={() => {
+                                                                          add_new_service_2_toggler_handler(
+                                                                            caseItem_1?.id_1,
+                                                                            caseItem_2?.id_2,
+                                                                            caseItem_3?.id_3
+                                                                          );
+                                                                        }}
+                                                                      >
+                                                                        cancel
+                                                                      </button>
+                                                                      <button
+                                                                        className="px-5 py-1 rounded-md bg-blue-600 text-white transition-colors ease-in-out duration-150 hover:bg-blue-500"
+                                                                        onClick={() => {
+                                                                          add_new_service_2_toggler_submit_handler();
+                                                                        }}
+                                                                      >
+                                                                        add
+                                                                        service
+                                                                      </button>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+
+                                                                {/* ********************************************************** */}
+                                                                {/* ********************************************************** */}
+                                                                {/* ********************************************************** */}
+                                                                {/* ********************************************************** */}
+                                                                {caseItem_3
+                                                                  ?.services
+                                                                  ?.length >
+                                                                0 ? (
+                                                                  <div>
+                                                                    {caseItem_3?.services?.map(
+                                                                      (
+                                                                        serviceItem_2
+                                                                      ) => {
+                                                                        return (
+                                                                          <div
+                                                                            key={
+                                                                              serviceItem_2?.service_2_id
+                                                                            }
+                                                                            className="border border-gray-200 rounded-md p-2 mb-3"
+                                                                          >
+                                                                            <header className="flex items-center gap-x-3">
+                                                                              {/* left */}
+                                                                              <div className="flex-grow">
+                                                                                {/* input */}
+                                                                                <div
+                                                                                  className={`flex-grow border px-1.5 py-0.5 ${
+                                                                                    edit_service_2_toggler?.id_1 ===
+                                                                                      caseItem_1?.id_1 &&
+                                                                                    edit_service_2_toggler?.id_2 ===
+                                                                                      caseItem_2?.id_2 &&
+                                                                                    edit_service_2_toggler?.id_3 ===
+                                                                                      caseItem_3?.id_3 &&
+                                                                                    edit_service_2_toggler?.service_2_id ===
+                                                                                      serviceItem_2?.service_2_id
+                                                                                      ? "border-green-600"
+                                                                                      : "border-transparent"
+                                                                                  }`}
+                                                                                >
+                                                                                  <input
+                                                                                    className="w-full focus:ring-0 focus:outline-none bg-transparent p-0 border-none"
+                                                                                    onChange={(
+                                                                                      e
+                                                                                    ) => {
+                                                                                      edit_service_2_input_change_handler(
+                                                                                        e
+                                                                                          .target
+                                                                                          .value
+                                                                                      );
+                                                                                    }}
+                                                                                    value={
+                                                                                      edit_service_2_toggler?.id_1 ===
+                                                                                        caseItem_1?.id_1 &&
+                                                                                      edit_service_2_toggler?.id_2 ===
+                                                                                        caseItem_2?.id_2 &&
+                                                                                      edit_service_2_toggler?.id_3 ===
+                                                                                        caseItem_3?.id_3 &&
+                                                                                      edit_service_2_toggler?.service_2_id ===
+                                                                                        serviceItem_2?.service_2_id
+                                                                                        ? edit_service_2_toggler?.service_2_input
+                                                                                        : serviceItem_2?.service_2
+                                                                                    }
+                                                                                    disabled={
+                                                                                      !(
+                                                                                        edit_service_2_toggler?.id_1 ===
+                                                                                          caseItem_1?.id_1 &&
+                                                                                        edit_service_2_toggler?.id_2 ===
+                                                                                          caseItem_2?.id_2 &&
+                                                                                        edit_service_2_toggler?.id_3 ===
+                                                                                          caseItem_3?.id_3 &&
+                                                                                        edit_service_2_toggler?.service_2_id ===
+                                                                                          serviceItem_2?.service_2_id
+                                                                                      )
+                                                                                    }
+                                                                                  />
+                                                                                </div>
+                                                                              </div>
+                                                                              {/* right */}
+                                                                              <div className="flex items-center justify-end gap-x-1.5">
+                                                                                {/* edit & save button */}
+                                                                                {edit_service_2_toggler?.id_1 ===
+                                                                                  caseItem_1?.id_1 &&
+                                                                                edit_service_2_toggler?.id_2 ===
+                                                                                  caseItem_2?.id_2 &&
+                                                                                edit_service_2_toggler?.id_3 ===
+                                                                                  caseItem_3?.id_3 &&
+                                                                                edit_service_2_toggler?.service_2_id ===
+                                                                                  serviceItem_2?.service_2_id ? (
+                                                                                  <button
+                                                                                    className="flex items-center justify-center text-xl border border-green-400 rounded-sm transition-colors ease-in-out duration-150 hover:border-green-600 text-green-400 hover:text-green-600"
+                                                                                    onClick={() => {
+                                                                                      save_edit_service_2_changes_handler();
+                                                                                    }}
+                                                                                  >
+                                                                                    <AiOutlineSave />
+                                                                                  </button>
+                                                                                ) : (
+                                                                                  <button
+                                                                                    className="flex items-center justify-center text-xl border border-gray-200 rounded-sm transition-colors ease-in-out duration-150 hover:border-gray-500"
+                                                                                    onClick={() => {
+                                                                                      edit_service_2_toggler_handler(
+                                                                                        caseItem_1?.id_1,
+                                                                                        caseItem_2?.id_2,
+                                                                                        caseItem_3?.id_3,
+                                                                                        serviceItem_2?.service_2_id,
+                                                                                        serviceItem_2?.service_2
+                                                                                      );
+                                                                                    }}
+                                                                                  >
+                                                                                    <CiEdit />
+                                                                                  </button>
+                                                                                )}
+                                                                                {/* delete */}
+                                                                                <button
+                                                                                  className="flex items-center justify-center p-0.5 border border-red-400 rounded-sm transition-colors ease-in-out duration-150 hover:border-red-600 text-sm text-red-400 hover:text-red-600"
+                                                                                  onClick={() => {
+                                                                                    delete_service_2_toggler_handler(
+                                                                                      caseItem_1?.id_1,
+                                                                                      caseItem_2?.id_2,
+                                                                                      caseItem_3?.id_3,
+                                                                                      serviceItem_2?.service_2_id,
+                                                                                      caseItem_1?.title_1,
+                                                                                      caseItem_2?.title_2,
+                                                                                      caseItem_3?.title_3,
+                                                                                      serviceItem_2?.service_2
+                                                                                    );
+                                                                                  }}
+                                                                                >
+                                                                                  <RiDeleteBin6Line />
+                                                                                </button>
+                                                                              </div>
+                                                                            </header>
+                                                                          </div>
+                                                                        );
+                                                                      }
+                                                                    )}
+                                                                  </div>
+                                                                ) : (
+                                                                  <div
+                                                                    className={`ml-2`}
+                                                                  >
+                                                                    <div>
+                                                                      <div>
+                                                                        <p>
+                                                                          add
+                                                                          new
+                                                                          service
+                                                                          hint
+                                                                          Lorem
+                                                                          ipsum
+                                                                          dolor
+                                                                          sit
+                                                                          amet
+                                                                          consectetur
+                                                                          adipisicing
+                                                                          elit.
+                                                                          Sed
+                                                                          mollitia
+                                                                          reiciendis
+                                                                          dignissimos.
+                                                                        </p>
+                                                                      </div>
+                                                                      <button
+                                                                        className="text-blue-500 transition-colors ease-in-out duration-150 hover:text-blue-600 hover:underline"
+                                                                        onClick={() => {
+                                                                          // add_new_service_1_toggler_handler(
+                                                                          //   caseItem_1?.id_1,
+                                                                          //   caseItem_2?.id_2
+                                                                          // );
+                                                                        }}
+                                                                      >
+                                                                        add new
+                                                                        service
+                                                                      </button>
+                                                                    </div>
+                                                                  </div>
+                                                                )}
+                                                              </div>
+                                                            </div>
                                                           </div>
                                                         );
                                                       }
@@ -2165,6 +2717,63 @@ const Home = () => {
             className="px-5 py-1 rounded-md bg-red-600 text-white transition-colors ease-in-out duration-150 hover:bg-red-500"
             onClick={() => {
               confirm_delete_sub_2_handler();
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+
+      {/* delete service 2 conformation pop up */}
+      <div
+        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-max bg-white p-5 shadow-2xl transition-transform ease-in-out duration-150 ${
+          delete_service_2_toggler?.id_1 &&
+          delete_service_2_toggler?.id_2 &&
+          delete_service_2_toggler?.id_3 &&
+          delete_service_2_toggler?.service_2_id
+            ? "scale-100"
+            : "scale-0"
+        }`}
+      >
+        {/* icon */}
+        <div className="flex items-center justify-center">
+          <div className="w-[42px] aspect-square rounded-full border-2 border-red-400 bg-red-50 flex items-center justify-center text-red-400 text-xl">
+            <IoIosWarning />
+          </div>
+        </div>
+        {/* text */}
+        <div className="flex items-center justify-center text-center font-medium my-2">
+          <h3>
+            Delete {delete_service_2_toggler?.title_1}-
+            {delete_service_2_toggler?.title_2}-
+            {delete_service_2_toggler?.title_3}-
+            <span className="text-red-700">
+              {delete_service_2_toggler?.service_2}
+            </span>
+          </h3>
+        </div>
+        {/* text */}
+        <div className="text-sm text-gray-600 text-center">
+          <p>
+            Are you sure to delete this service ? Remember, this action is
+            undone.
+          </p>
+        </div>
+
+        {/* buttons */}
+        <div className="my-2 mt-5 flex items-center justify-evenly">
+          <button
+            className="px-5 py-1 rounded-md bg-gray-700 text-white transition-colors ease-in-out duration-150 hover:bg-gray-600"
+            onClick={() => {
+              cancel_delete_service_2_conformation();
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-5 py-1 rounded-md bg-red-600 text-white transition-colors ease-in-out duration-150 hover:bg-red-500"
+            onClick={() => {
+              delete_service_2_conformation_handler();
             }}
           >
             Delete
