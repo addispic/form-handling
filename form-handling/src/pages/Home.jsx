@@ -1046,11 +1046,11 @@ const Home = () => {
   };
 
   // edit service 2 input change handler
-  const edit_service_2_input_change_handler = (service_1_input) => {
+  const edit_service_2_input_change_handler = (service_2_input) => {
     set_edit_service_2_toggler((prev) => {
       return {
         ...prev,
-        service_1_input,
+        service_2_input,
       };
     });
   };
@@ -1088,6 +1088,42 @@ const Home = () => {
         service_2_input: "",
       };
     });
+  };
+
+  // expander 3
+  const [expander_3, set_expander_3] = useState({
+    id_1: null,
+    id_2: null,
+    id_3: null,
+  });
+
+  // expander 3 handler
+  const expander_3_handler = (id_1, id_2, id_3) => {
+    console.log({ id_1, id_2, id_3 });
+
+    if (
+      expander_3?.id_1 === id_2 &&
+      expander_3?.id_2 === id_2 &&
+      expander_3?.id_3 === id_3
+    ) {
+      set_expander_3((prev) => {
+        return {
+          ...prev,
+          id_1: null,
+          id_2: null,
+          id_3: null,
+        };
+      });
+    }else {
+      set_expander_3((prev) => {
+        return {
+          ...prev,
+          id_1,
+          id_2,
+          id_3,
+        };
+      });
+    }
   };
 
   return (
@@ -2095,15 +2131,16 @@ const Home = () => {
                                                                 <button
                                                                   className="flex items-center justify-center text-xl border border-gray-200 rounded-sm transition-colors ease-in-out duration-150 hover:border-gray-500"
                                                                   onClick={() => {
-                                                                    // expander_2_handler(
-                                                                    //   caseItem_1?.id_1,
-                                                                    //   caseItem_2?.id_2
-                                                                    // );
+                                                                    expander_3_handler(
+                                                                      caseItem_1?.id_1,
+                                                                      caseItem_2?.id_2,
+                                                                      caseItem_3?.id_3
+                                                                    );
                                                                   }}
                                                                 >
                                                                   <MdKeyboardArrowDown
                                                                     className={`transition-transform ease-in-out duration-150 ${
-                                                                      !true
+                                                                      expander_3?.id_1 === caseItem_1?.id_1 && expander_3?.id_2 === caseItem_2?.id_2 && expander_3?.id_3 === caseItem_3?.id_3
                                                                         ? "-rotate-180"
                                                                         : "rotate-0"
                                                                     }`}
@@ -2121,7 +2158,7 @@ const Home = () => {
                                                              */}
 
                                                             {/* content */}
-                                                            <div>
+                                                            <div className={`overflow-hidden ${expander_3?.id_1 === caseItem_1?.id_1 && expander_3?.id_2 === caseItem_2?.id_2 && expander_3?.id_3 === caseItem_3?.id_3 ? 'h-auto' : 'h-0'}`}>
                                                               <div className="mt-2 border-t border-gray-200 pt-1">
                                                                 {/* header */}
                                                                 <header className="flex items-center justify-between pl-2 mt-2">
