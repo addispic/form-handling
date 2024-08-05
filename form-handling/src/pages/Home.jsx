@@ -550,14 +550,17 @@ const Home = () => {
   // confirm_delete_service_1_handler
   const confirm_delete_service_1_handler = () => {
     let { id_1, id_2, service_1_id } = delete_service_1_toggler;
-    // console.log(id_1, id_2, service_1_id);
 
-    let index_1 = cases?.findIndex(caseItem_1 => caseItem_1?.id_1 === id_1);
-    let index_2 = cases[index_1]['sub_1']?.findIndex(caseItem_2 => caseItem_2?.id_2 === id_2);
+    let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+    let index_2 = cases[index_1]["sub_1"]?.findIndex(
+      (caseItem_2) => caseItem_2?.id_2 === id_2
+    );
 
-    // console.log(cases[index_1]['sub_1'][index_2]['services']?.filter(serviceItem_1 => serviceItem_1?.service_1_id !== service_1_id))
-
-    cases[index_1]['sub_1'][index_2]['services'] = cases[index_1]['sub_1'][index_2]['services']?.filter(serviceItem_1 => serviceItem_1?.service_1_id !== service_1_id)
+    cases[index_1]["sub_1"][index_2]["services"] = cases[index_1]["sub_1"][
+      index_2
+    ]["services"]?.filter(
+      (serviceItem_1) => serviceItem_1?.service_1_id !== service_1_id
+    );
 
     setCases(cases);
 
@@ -570,6 +573,288 @@ const Home = () => {
         title_1: "",
         title_2: "",
         service_1: "",
+      };
+    });
+  };
+
+  // edit service 1 toggler
+  const [edit_service_1_toggler, set_edit_service_1_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    service_1_id: null,
+    service_1_input: "",
+  });
+
+  // handler
+  // edit_service_1_toggler_handler
+  const edit_service_1_toggler_handler = (
+    id_1,
+    id_2,
+    service_1_id,
+    service_1_input
+  ) => {
+    set_edit_service_1_toggler((prev) => {
+      return {
+        ...prev,
+        id_1,
+        id_2,
+        service_1_id,
+        service_1_input,
+      };
+    });
+  };
+
+  // service 1 input change handler
+  const edit_service_1_toggler_input_change_handler = (service_1_input) => {
+    set_edit_service_1_toggler((prev) => {
+      return {
+        ...prev,
+        service_1_input,
+      };
+    });
+  };
+
+  // save edit service 1 changes
+  const save_edit_service_1_changes_handler = () => {
+    const { id_1, id_2, service_1_id, service_1_input } =
+      edit_service_1_toggler;
+
+    if (service_1_input?.trim()) {
+      let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+      let index_2 = cases[index_1]["sub_1"].findIndex(
+        (caseItem_2) => caseItem_2?.id_2 === id_2
+      );
+      let service_1_index = cases[index_1]["sub_1"][index_2][
+        "services"
+      ].findIndex(
+        (serviceItem_1) => serviceItem_1?.service_1_id === service_1_id
+      );
+      cases[index_1]["sub_1"][index_2]["services"][service_1_index][
+        "service_1"
+      ] = service_1_input;
+      setCases(cases);
+    }
+
+    set_edit_service_1_toggler((prev) => {
+      return {
+        ...prev,
+        id_1: null,
+        id_2: null,
+        service_1_id: null,
+        service_1_input: "",
+      };
+    });
+  };
+
+  // expander 1
+  const [expander_2, set_expander_2] = useState({
+    id_1: null,
+    id_2: null,
+  });
+
+  // expander_2_handler
+  const expander_2_handler = (id_1, id_2) => {
+    if (expander_2?.id_1 === id_1 && expander_2?.id_2 === id_2) {
+      set_expander_2((prev) => {
+        return {
+          ...prev,
+          id_1: null,
+          id_2: null,
+        };
+      });
+    } else {
+      set_expander_2((prev) => {
+        return {
+          ...prev,
+          id_1,
+          id_2,
+        };
+      });
+    }
+  };
+
+  ////////////////////////////////////////////////
+  /////////////////// sub 2 //////////////////////
+  ////////////////////////////////////////////////
+
+  // states
+  // add sub 2
+  const [add_new_sub_2_toggler, set_add_new_sub_2_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    title_3: "",
+  });
+
+  // handler
+  // add_new_sub_2_toggler_handler
+  const add_new_sub_2_toggler_handler = (id_1, id_2) => {
+    if (
+      add_new_sub_2_toggler?.id_1 === id_1 &&
+      add_new_sub_2_toggler?.id_2 === id_2
+    ) {
+      set_add_new_sub_2_toggler((prev) => {
+        return {
+          ...prev,
+          id_1: null,
+          id_2: null,
+          title_3: "",
+        };
+      });
+    } else {
+      set_add_new_sub_2_toggler((prev) => {
+        return {
+          ...prev,
+          id_1,
+          id_2,
+          title_3: "",
+        };
+      });
+    }
+  };
+
+  // new sub 2 input change handler
+  const add_new_sub_2_input_change_handler = (title_3) => {
+    set_add_new_sub_2_toggler((prev) => {
+      return {
+        ...prev,
+        title_3,
+      };
+    });
+  };
+
+  // add new sub 2 submit handler
+  const add_new_sub_2_submit_handler = () => {
+    let { id_1, id_2, title_3 } = add_new_sub_2_toggler;
+    if (title_3?.trim()) {
+      let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+      let index_2 = cases[index_1]["sub_1"].findIndex(
+        (caseItem_2) => caseItem_2?.id_2 === id_2
+      );
+      cases[index_1]["sub_1"][index_2]["sub_2"] = [
+        ...cases[index_1]["sub_1"][index_2]["sub_2"],
+        { id_3: `${Date.now()}`, title_3, services: [] },
+      ];
+      setCases(cases);
+      add_new_sub_2_toggler_handler(id_1, id_2);
+    }
+  };
+
+  // delete sub 2
+  const [delete_sub_2_toggler, set_delete_sub_2_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    id_3: null,
+    title_1: "",
+    title_2: "",
+    title_3: "",
+  });
+
+  // handler
+  // delete_sub_2_toggler_handler
+  const delete_sub_2_toggler_handler = (
+    id_1,
+    id_2,
+    id_3,
+    title_1,
+    title_2,
+    title_3
+  ) => {
+    set_delete_sub_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1,
+        id_2,
+        id_3,
+        title_1,
+        title_2,
+        title_3,
+      };
+    });
+  };
+
+  // cancel_delete_sub_2_conformation
+  const cancel_delete_sub_2_conformation = () => {
+    set_delete_sub_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1: null,
+        id_2: null,
+        id_3: null,
+        title_1: "",
+        title_2: "",
+        title_3: "",
+      };
+    });
+  };
+
+  // confirm delete sub 2
+  const confirm_delete_sub_2_handler = () => {
+    const { id_1, id_2, id_3 } = delete_sub_2_toggler;
+    let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+    let index_2 = cases[index_1]["sub_1"]?.findIndex(
+      (caseItem_2) => caseItem_2?.id_2 === id_2
+    );
+    cases[index_1]["sub_1"][index_2]["sub_2"] = cases[index_1]["sub_1"][
+      index_2
+    ]["sub_2"]?.filter((caseItem_3) => caseItem_3?.id_3 !== id_3);
+    setCases(cases);
+    cancel_delete_sub_2_conformation();
+    // console.log(cases[index_1]['sub_1'][index_2]['sub_2'])
+  };
+
+  // edit sub 2
+  const [edit_sub_2_toggler, set_edit_sub_2_toggler] = useState({
+    id_1: null,
+    id_2: null,
+    id_3: null,
+    title_3: "",
+  });
+
+  // handler
+  const edit_sub_2_toggler_handler = (id_1, id_2, id_3, title_3) => {
+    set_edit_sub_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1,
+        id_2,
+        id_3,
+        title_3,
+      };
+    });
+  };
+
+  // input change handler
+  const edit_sub_2_input_change_handler = (title_3) => {
+    set_edit_sub_2_toggler((prev) => {
+      return {
+        ...prev,
+        title_3,
+      };
+    });
+  };
+
+  // save edit sub 2 change handler
+  const save_edit_sub_2_handler = () => {
+    const { id_1, id_2, id_3, title_3 } = edit_sub_2_toggler;
+    if (title_3?.trim()) {
+      let index_1 = cases?.findIndex((caseItem_1) => caseItem_1?.id_1 === id_1);
+      let index_2 = cases[index_1]["sub_1"]?.findIndex(
+        (caseItem_2) => caseItem_2?.id_2 === id_2
+      );
+      let index_3 = cases[index_1]["sub_1"][index_2]["sub_2"]?.findIndex(
+        (caseItem_3) => caseItem_3?.id_3 === id_3
+      );
+      cases[index_1]["sub_1"][index_2]["sub_2"][index_3]["title_3"] = title_3;
+      setCases(cases);
+    }
+
+    set_edit_sub_2_toggler((prev) => {
+      return {
+        ...prev,
+        id_1: null,
+        id_2: null,
+        id_3: null,
+        title_3: "",
       };
     });
   };
@@ -1062,16 +1347,36 @@ const Home = () => {
                                           <button
                                             className="flex items-center justify-center text-xl border border-gray-200 rounded-sm transition-colors ease-in-out duration-150 hover:border-gray-500"
                                             onClick={() => {
-                                              //
+                                              expander_2_handler(
+                                                caseItem_1?.id_1,
+                                                caseItem_2?.id_2
+                                              );
                                             }}
                                           >
-                                            <MdKeyboardArrowDown />
+                                            <MdKeyboardArrowDown
+                                              className={`transition-transform ease-in-out duration-150 ${
+                                                expander_2?.id_1 ===
+                                                  caseItem_1?.id_1 &&
+                                                expander_2?.id_2 ===
+                                                  caseItem_2?.id_2
+                                                  ? "-rotate-180"
+                                                  : "rotate-0"
+                                              }`}
+                                            />
                                           </button>
                                         </div>
                                       </header>
 
                                       {/* content */}
-                                      <div className="ml-2">
+                                      <div
+                                        className={`ml-2 overflow-hidden ${
+                                          expander_2?.id_1 ===
+                                            caseItem_1?.id_1 &&
+                                          expander_2?.id_2 === caseItem_2?.id_2
+                                            ? "h-auto"
+                                            : "h-0"
+                                        }`}
+                                      >
                                         <div className="mt-2 border-t border-gray-200 pt-1">
                                           {caseItem_2?.services ? (
                                             <div>
@@ -1198,51 +1503,62 @@ const Home = () => {
                                                               {/* input */}
                                                               <div
                                                                 className={`flex-grow border px-1.5 py-0.5 ${
-                                                                  !true
+                                                                  edit_service_1_toggler?.id_1 ===
+                                                                    caseItem_1?.id_1 &&
+                                                                  edit_service_1_toggler?.id_2 ===
+                                                                    caseItem_2?.id_2 &&
+                                                                  edit_service_1_toggler?.service_1_id ===
+                                                                    serviceItem_1?.service_1_id
                                                                     ? "border-green-600"
                                                                     : "border-transparent"
                                                                 }`}
                                                               >
                                                                 <input
                                                                   className="w-full focus:ring-0 focus:outline-none bg-transparent p-0 border-none"
-                                                                  // onChange={(
-                                                                  //   e
-                                                                  // ) => {
-                                                                  //   edit_sub_1_toggler_input_change_handler(
-                                                                  //     e.target
-                                                                  //       .value
-                                                                  //   );
-                                                                  // }}
+                                                                  onChange={(
+                                                                    e
+                                                                  ) => {
+                                                                    edit_service_1_toggler_input_change_handler(
+                                                                      e.target
+                                                                        .value
+                                                                    );
+                                                                  }}
                                                                   value={
-                                                                    serviceItem_1?.service_1
+                                                                    edit_service_1_toggler?.id_1 ===
+                                                                      caseItem_1?.id_1 &&
+                                                                    edit_service_1_toggler?.id_2 ===
+                                                                      caseItem_2?.id_2 &&
+                                                                    edit_service_1_toggler?.service_1_id ===
+                                                                      serviceItem_1?.service_1_id
+                                                                      ? edit_service_1_toggler?.service_1_input
+                                                                      : serviceItem_1?.service_1
                                                                   }
-                                                                  // value={
-                                                                  //   edit_sub_1_toggler?.id_1 ===
-                                                                  //     caseItem_1?.id_1 &&
-                                                                  //   edit_sub_1_toggler?.id_2 ===
-                                                                  //     caseItem_2?.id_2
-                                                                  //     ? edit_sub_1_toggler?.title_2
-                                                                  //     : caseItem_2?.title_2
-                                                                  // }
-                                                                  // disabled={
-                                                                  //   !(
-                                                                  //     edit_sub_1_toggler?.id_1 ===
-                                                                  //       caseItem_1?.id_1 &&
-                                                                  //     edit_sub_1_toggler?.id_2 ===
-                                                                  //       caseItem_2?.id_2
-                                                                  //   )
-                                                                  // }
+                                                                  disabled={
+                                                                    !(
+                                                                      edit_service_1_toggler?.id_1 ===
+                                                                        caseItem_1?.id_1 &&
+                                                                      edit_service_1_toggler?.id_2 ===
+                                                                        caseItem_2?.id_2 &&
+                                                                      edit_service_1_toggler?.service_1_id ===
+                                                                        serviceItem_1?.service_1_id
+                                                                    )
+                                                                  }
                                                                 />
                                                               </div>
                                                             </div>
                                                             {/* right */}
                                                             <div className="flex items-center justify-end gap-x-1.5">
                                                               {/* edit & save button */}
-                                                              {!true ? (
+                                                              {edit_service_1_toggler?.id_1 ===
+                                                                caseItem_1?.id_1 &&
+                                                              edit_service_1_toggler?.id_2 ===
+                                                                caseItem_2?.id_2 &&
+                                                              edit_service_1_toggler?.service_1_id ===
+                                                                serviceItem_1?.service_1_id ? (
                                                                 <button
                                                                   className="flex items-center justify-center text-xl border border-green-400 rounded-sm transition-colors ease-in-out duration-150 hover:border-green-600 text-green-400 hover:text-green-600"
                                                                   onClick={() => {
-                                                                    // save_edit_sub_1_handler();
+                                                                    save_edit_service_1_changes_handler();
                                                                   }}
                                                                 >
                                                                   <AiOutlineSave />
@@ -1251,11 +1567,12 @@ const Home = () => {
                                                                 <button
                                                                   className="flex items-center justify-center text-xl border border-gray-200 rounded-sm transition-colors ease-in-out duration-150 hover:border-gray-500"
                                                                   onClick={() => {
-                                                                    // edit_sub_1_toggler_handler(
-                                                                    //   caseItem_1?.id_1,
-                                                                    //   caseItem_2?.id_2,
-                                                                    //   caseItem_2?.title_2
-                                                                    // );
+                                                                    edit_service_1_toggler_handler(
+                                                                      caseItem_1?.id_1,
+                                                                      caseItem_2?.id_2,
+                                                                      serviceItem_1?.service_1_id,
+                                                                      serviceItem_1?.service_1
+                                                                    );
                                                                   }}
                                                                 >
                                                                   <CiEdit />
@@ -1313,7 +1630,286 @@ const Home = () => {
                                               )}
                                             </div>
                                           ) : caseItem_2?.sub_2 ? (
-                                            <div>sub_2_list</div>
+                                            <div>
+                                              {/*
+                                               **********************************************
+                                               *************** phase two ********************
+                                               **********************************************
+                                               ***************** sub 2  *********************
+                                               **********************************************
+                                               */}
+                                              <div>
+                                                {/* header */}
+                                                <header className="flex items-center justify-between pl-2 mt-2">
+                                                  {/* left */}
+                                                  <div className="flex items-center gap-x-3">
+                                                    {/* title */}
+                                                    <div className="text-[.85rem] font-medium">
+                                                      <p>
+                                                        {caseItem_2?.title_2}{" "}
+                                                        sub cases
+                                                      </p>
+                                                    </div>
+                                                    {/* number */}
+                                                    <div className="text-gray-600 text-xs">
+                                                      <span>
+                                                        {
+                                                          caseItem_2?.sub_2
+                                                            ?.length
+                                                        }
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                  {/* right */}
+                                                  <div>
+                                                    <button
+                                                      className={`flex items-center gap-x-1 px-3 py-1 rounded-md text-white transition-colors ease-in-out duration-150  ${
+                                                        add_new_sub_2_toggler?.id_1 ===
+                                                          caseItem_1?.id_1 &&
+                                                        add_new_sub_2_toggler?.id_2 ===
+                                                          caseItem_2?.id_2
+                                                          ? "bg-red-600 hover:bg-red-500"
+                                                          : "bg-blue-600 hover:bg-blue-500"
+                                                      }`}
+                                                      onClick={() => {
+                                                        add_new_sub_2_toggler_handler(
+                                                          caseItem_1?.id_1,
+                                                          caseItem_2?.id_2
+                                                        );
+                                                      }}
+                                                    >
+                                                      <MdOutlineAddCircle
+                                                        className={`transition-transform ease-in-out duration-150 ${
+                                                          add_new_sub_2_toggler?.id_1 ===
+                                                            caseItem_1?.id_1 &&
+                                                          add_new_sub_2_toggler?.id_2 ===
+                                                            caseItem_2?.id_2
+                                                            ? "rotate-45"
+                                                            : "rotate-0"
+                                                        }`}
+                                                      />
+                                                      <span>add sub case</span>
+                                                    </button>
+                                                  </div>
+                                                </header>
+
+                                                {/* input */}
+                                                <div
+                                                  className={`my-3 transition-all ease-in-out duration-150 overflow-hidden ${
+                                                    add_new_sub_2_toggler?.id_1 ===
+                                                      caseItem_1?.id_1 &&
+                                                    add_new_sub_2_toggler?.id_2 ===
+                                                      caseItem_2?.id_2
+                                                      ? "h-[130px]"
+                                                      : "h-0"
+                                                  }`}
+                                                >
+                                                  <div className="ml-2 p-2 border border-gray-200 bg-gray-100 rounded-md">
+                                                    {/* input */}
+                                                    <div className="mb-3 border border-gray-200 rounded-md p-1 bg-white">
+                                                      <input
+                                                        className="w-full focus:outline-none focus:ring-0 bg-transparent text-sm"
+                                                        type="text"
+                                                        placeholder="sub case"
+                                                        value={
+                                                          add_new_sub_2_toggler?.title_3
+                                                        }
+                                                        onChange={(e) => {
+                                                          add_new_sub_2_input_change_handler(
+                                                            e.target.value
+                                                          );
+                                                        }}
+                                                      />
+                                                    </div>
+                                                    {/* buttons */}
+                                                    <div className="flex items-center gap-x-5 mt-5">
+                                                      <button
+                                                        className="px-5 py-1 rounded-md bg-gray-700 text-white transition-colors ease-in-out duration-150 hover:bg-gray-600"
+                                                        onClick={() => {
+                                                          add_new_sub_2_toggler_handler(
+                                                            caseItem_1?.id_1,
+                                                            caseItem_2?.id_2
+                                                          );
+                                                        }}
+                                                      >
+                                                        cancel
+                                                      </button>
+                                                      <button
+                                                        className="px-5 py-1 rounded-md bg-blue-600 text-white transition-colors ease-in-out duration-150 hover:bg-blue-500"
+                                                        onClick={() => {
+                                                          add_new_sub_2_submit_handler();
+                                                        }}
+                                                      >
+                                                        add sub case
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                                {caseItem_2?.sub_2?.length >
+                                                0 ? (
+                                                  <div>
+                                                    {caseItem_2?.sub_2?.map(
+                                                      (caseItem_3) => {
+                                                        return (
+                                                          <div
+                                                            key={
+                                                              caseItem_3?.id_3
+                                                            }
+                                                            className="border border-gray-200 rounded-md p-2 mb-3"
+                                                          >
+                                                            {/* header */}
+                                                            <header className="flex items-center gap-x-3">
+                                                              {/* left */}
+                                                              <div className="flex-grow">
+                                                                {/* input */}
+                                                                <div
+                                                                  className={`flex-grow border px-1.5 py-0.5 ${
+                                                                    edit_sub_2_toggler?.id_1 ===
+                                                                      caseItem_1?.id_1 &&
+                                                                    edit_sub_2_toggler?.id_2 ===
+                                                                      caseItem_2?.id_2 &&
+                                                                    edit_sub_2_toggler?.id_3 ===
+                                                                      caseItem_3?.id_3
+                                                                      ? "border-green-600"
+                                                                      : "border-transparent"
+                                                                  }`}
+                                                                >
+                                                                  <input
+                                                                    className="w-full focus:ring-0 focus:outline-none bg-transparent p-0 border-none"
+                                                                    onChange={(
+                                                                      e
+                                                                    ) => {
+                                                                      edit_sub_2_input_change_handler(
+                                                                        e.target
+                                                                          .value
+                                                                      );
+                                                                    }}
+                                                                    value={
+                                                                      edit_sub_2_toggler?.id_1 ===
+                                                                        caseItem_1?.id_1 &&
+                                                                      edit_sub_2_toggler?.id_2 ===
+                                                                        caseItem_2?.id_2 &&
+                                                                      edit_sub_2_toggler?.id_3 ===
+                                                                        caseItem_3?.id_3
+                                                                        ? edit_sub_2_toggler?.title_3
+                                                                        : caseItem_3?.title_3
+                                                                    }
+                                                                    disabled={
+                                                                      !(
+                                                                        edit_sub_2_toggler?.id_1 ===
+                                                                          caseItem_1?.id_1 &&
+                                                                        edit_sub_2_toggler?.id_2 ===
+                                                                          caseItem_2?.id_2 &&
+                                                                        edit_sub_2_toggler?.id_3 ===
+                                                                          caseItem_3?.id_3
+                                                                      )
+                                                                    }
+                                                                  />
+                                                                </div>
+                                                              </div>
+                                                              {/* right */}
+                                                              <div className="flex items-center justify-end gap-x-1.5">
+                                                                {/* edit & save button */}
+                                                                {edit_sub_2_toggler?.id_1 ===
+                                                                  caseItem_1?.id_1 &&
+                                                                edit_sub_2_toggler?.id_2 ===
+                                                                  caseItem_2?.id_2 &&
+                                                                edit_sub_2_toggler?.id_3 ===
+                                                                  caseItem_3?.id_3 ? (
+                                                                  <button
+                                                                    className="flex items-center justify-center text-xl border border-green-400 rounded-sm transition-colors ease-in-out duration-150 hover:border-green-600 text-green-400 hover:text-green-600"
+                                                                    onClick={() => {
+                                                                      save_edit_sub_2_handler();
+                                                                    }}
+                                                                  >
+                                                                    <AiOutlineSave />
+                                                                  </button>
+                                                                ) : (
+                                                                  <button
+                                                                    className="flex items-center justify-center text-xl border border-gray-200 rounded-sm transition-colors ease-in-out duration-150 hover:border-gray-500"
+                                                                    onClick={() => {
+                                                                      edit_sub_2_toggler_handler(
+                                                                        caseItem_1?.id_1,
+                                                                        caseItem_2?.id_2,
+                                                                        caseItem_3?.id_3,
+                                                                        caseItem_3?.title_3
+                                                                      );
+                                                                    }}
+                                                                  >
+                                                                    <CiEdit />
+                                                                  </button>
+                                                                )}
+                                                                {/* delete */}
+                                                                <button
+                                                                  className="flex items-center justify-center p-0.5 border border-red-400 rounded-sm transition-colors ease-in-out duration-150 hover:border-red-600 text-sm text-red-400 hover:text-red-600"
+                                                                  onClick={() => {
+                                                                    delete_sub_2_toggler_handler(
+                                                                      caseItem_1?.id_1,
+                                                                      caseItem_2?.id_2,
+                                                                      caseItem_3?.id_3,
+                                                                      caseItem_1?.title_1,
+                                                                      caseItem_2?.title_2,
+                                                                      caseItem_3?.title_3
+                                                                    );
+                                                                  }}
+                                                                >
+                                                                  <RiDeleteBin6Line />
+                                                                </button>
+                                                                {/* toggler */}
+                                                                <button
+                                                                  className="flex items-center justify-center text-xl border border-gray-200 rounded-sm transition-colors ease-in-out duration-150 hover:border-gray-500"
+                                                                  onClick={() => {
+                                                                    // expander_2_handler(
+                                                                    //   caseItem_1?.id_1,
+                                                                    //   caseItem_2?.id_2
+                                                                    // );
+                                                                  }}
+                                                                >
+                                                                  <MdKeyboardArrowDown
+                                                                    className={`transition-transform ease-in-out duration-150 ${
+                                                                      !true
+                                                                        ? "-rotate-180"
+                                                                        : "rotate-0"
+                                                                    }`}
+                                                                  />
+                                                                </button>
+                                                              </div>
+                                                            </header>
+                                                          </div>
+                                                        );
+                                                      }
+                                                    )}
+                                                  </div>
+                                                ) : (
+                                                  <div>
+                                                    <div>
+                                                      <div>
+                                                        <p>
+                                                          add new sub sub case
+                                                          hint text Lorem ipsum
+                                                          dolor sit amet
+                                                          consectetur
+                                                          adipisicing elit.
+                                                          Laboriosam, maiores?
+                                                        </p>
+                                                      </div>
+                                                      <button
+                                                        className="text-blue-500 transition-colors ease-in-out duration-150 hover:text-blue-700 hover:underline"
+                                                        onClick={() => {
+                                                          add_new_sub_2_toggler_handler(
+                                                            caseItem_1?.id_1,
+                                                            caseItem_2?.id_2
+                                                          );
+                                                        }}
+                                                      >
+                                                        add new sub case
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </div>
+                                            </div>
                                           ) : (
                                             <></>
                                           )}
@@ -1514,6 +2110,61 @@ const Home = () => {
             className="px-5 py-1 rounded-md bg-red-600 text-white transition-colors ease-in-out duration-150 hover:bg-red-500"
             onClick={() => {
               confirm_delete_service_1_handler();
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+
+      {/* sub 2 delete conformation pop up */}
+      <div
+        className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-max bg-white p-5 shadow-2xl transition-transform ease-in-out duration-150 ${
+          delete_sub_2_toggler?.id_1 &&
+          delete_sub_2_toggler?.id_2 &&
+          delete_sub_2_toggler?.id_3
+            ? "scale-100"
+            : "scale-0"
+        }`}
+      >
+        {/* icon */}
+        <div className="flex items-center justify-center">
+          <div className="w-[42px] aspect-square rounded-full border-2 border-red-400 bg-red-50 flex items-center justify-center text-red-400 text-xl">
+            <IoIosWarning />
+          </div>
+        </div>
+        {/* text */}
+        <div className="flex items-center justify-center text-center font-medium my-2">
+          <h3>
+            Delete {delete_sub_2_toggler?.title_1}-
+            {delete_sub_2_toggler?.title_2}-
+            <span className="text-red-700">
+              {delete_sub_2_toggler?.title_3}
+            </span>
+          </h3>
+        </div>
+        {/* text */}
+        <div className="text-sm text-gray-600 text-center">
+          <p>
+            Are you sure to delete this sub case ? Remember, this action is
+            undone.
+          </p>
+        </div>
+
+        {/* buttons */}
+        <div className="my-2 mt-5 flex items-center justify-evenly">
+          <button
+            className="px-5 py-1 rounded-md bg-gray-700 text-white transition-colors ease-in-out duration-150 hover:bg-gray-600"
+            onClick={() => {
+              cancel_delete_sub_2_conformation();
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-5 py-1 rounded-md bg-red-600 text-white transition-colors ease-in-out duration-150 hover:bg-red-500"
+            onClick={() => {
+              confirm_delete_sub_2_handler();
             }}
           >
             Delete
